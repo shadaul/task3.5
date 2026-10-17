@@ -14,8 +14,8 @@ with open('task1_d.json', 'r', encoding='utf-8') as f:
 clean_str = re.sub(r':([a-zA-Z_]+)\s*=>', r'"\1":', raw_data)
 data = ast.literal_eval(clean_str)
 
-cursor.execute("DROP TABLE IF EXISTS books;")
 cursor.execute("DROP TABLE IF EXISTS summary_books;")
+cursor.execute("DROP TABLE IF EXISTS books;")
 
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS books (
@@ -28,6 +28,8 @@ cursor.execute("""
         price VARCHAR(20)
     );
 """)
+
+conn.commit()
 
 insert_query = """
     INSERT INTO books (id, title, author, genre, publisher, year, price)
@@ -62,7 +64,7 @@ cursor.execute("""
 """)
 
 conn.commit()
-print("Success!")
+print("Success! Summary table created.")
 
 cursor.close()
 conn.close()
